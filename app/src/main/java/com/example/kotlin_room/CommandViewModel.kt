@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -17,8 +18,8 @@ class CommandViewModel(application: Application) : AndroidViewModel(application)
     val allCmd: LiveData<List<Command>>
 
     init {
-        val wordsDao = CommandRoomDatabase.getDatabase(application).wordDao()
-        repository = CommandRepository(wordsDao)
+        val cmdsDao = CommandRoomDatabase.getDatabase(application,viewModelScope).cmdDao()
+        repository = CommandRepository(cmdsDao)
         allCmd = repository.allCmd
     }
 
